@@ -2,9 +2,8 @@ package com.test.ivan.app.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,8 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.test.ivan.app.R;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,12 +50,28 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        SyncSparseArray<String> myList = new SyncSparseArray<>();
+        myList.add(0,"1");
+        myList.add(1,"2");
+        myList.add(2,"3");
+        myList.add(3,"4");
+        myList.add(4,"5");
+
+
+        Map<String,String> myMap = new ConcurrentHashMap<>();
+        myMap.put("1", "1");
+        myMap.put("2", "2");
+        myMap.put("3", "3");
+        Iterator<String> it1 = myMap.keySet().iterator();
+        while(it1.hasNext()){
+            String key = it1.next();
+            System.out.println("Map Value:"+myMap.get(key));
+            if(key.equals("2")){
+                myMap.put("1","4");
+                myMap.put("4", "4");
+            }
         }
+
     }
 
     @Override
