@@ -1,13 +1,17 @@
 package com.test.ivan.app.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
 import com.test.ivan.app.R;
+
+import java.io.File;
 
 public class ShareButton extends Button implements View.OnClickListener {
 
@@ -93,6 +97,13 @@ public class ShareButton extends Button implements View.OnClickListener {
             case FACEBOOK:
                 break;
             case INSTAGRAM:
+                final File file = new File("/storage/extSdCard/Фото0264.jpg");
+                final Uri uri = Uri.fromFile(file);
+                final Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.setPackage("com.instagram.android");
+                getContext().startActivity(intent);
                 break;
             case OTHER:
                 break;
