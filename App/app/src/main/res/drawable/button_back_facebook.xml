@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <bitmap android:gravity="center" android:src="@mipmap/ic_fb_disable"/>
+    </item>
+
+    <item android:state_enabled="true">
+        <bitmap android:gravity="center" android:src="@mipmap/ic_fb_enable" android:tileMode="repeat"/>
+    </item>
+
+    <item android:state_enabled="false">
+        <bitmap android:gravity="center" android:src="@mipmap/ic_fb_disable" android:tileMode="repeat"/>
+    </item>
+</selector>

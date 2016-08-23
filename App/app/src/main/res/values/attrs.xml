@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ShareButton">
+        <attr name="network" format="enum">
+            <enum name="facebook" value="0"/>
+            <enum name="instagram" value="1"/>
+            <enum name="other" value="2"/>
+        </attr>
+    </declare-styleable>
+
+</resources>
