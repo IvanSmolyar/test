@@ -5,17 +5,17 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.test.ivan.app.ui.activity.ShareButton
+    <com.test.ivan.app.ShareButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:network="facebook"/>
 
-    <com.test.ivan.app.ui.activity.ShareButton
+    <com.test.ivan.app.ShareButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:network="instagram"/>
 
-    <com.test.ivan.app.ui.activity.ShareButton
+    <com.test.ivan.app.ShareButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:network="other"/>

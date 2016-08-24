@@ -1,4 +1,4 @@
-package com.test.ivan.app.ui.activity;
+package com.test.ivan.app;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-
-import com.test.ivan.app.R;
 
 import java.io.File;
 
@@ -93,20 +91,15 @@ public class ShareButton extends Button implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (mApp) {
-            case FACEBOOK:
-                break;
-            case INSTAGRAM:
-                final File file = new File("/storage/extSdCard/Фото0264.jpg");
-                final Uri uri = Uri.fromFile(file);
-                final Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                intent.setPackage("com.instagram.android");
-                getContext().startActivity(intent);
-                break;
-            case OTHER:
-                break;
+        final File file = new File("/storage/extSdCard/Фото0264.jpg");
+        final Uri uri = Uri.fromFile(file);
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        if (mApp != SocialNetworkApp.OTHER) {
+            intent.setPackage(mApp.getPackageName());
         }
+        getContext().startActivity(intent);
     }
+
 }
