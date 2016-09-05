@@ -1,4 +1,4 @@
-package com.test.ivan.app.ui.activity;
+package com.test.ivan;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
