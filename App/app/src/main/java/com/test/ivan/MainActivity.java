@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             writer.append(line3);
             writer.append("\n");
 
-            for (int current = android.R.attr.max; current >= min; current--) {
+            for (int current = max; current >= min; current--) {
                 final int times = frequentArray.get(current);
                 if (times >= 2) {
                     final String line4 = current + " appears " + times + " times";
