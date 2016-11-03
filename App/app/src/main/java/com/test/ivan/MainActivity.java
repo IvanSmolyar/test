@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -22,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.ENGLISH);
 
-    private static final int RANGE = 10;
-    private static final int SIZE = 10;
+    private static final int RANGE = 1000000;
+    private static final int SIZE = 1000000;
 
     private static final int MAX = RANGE;
     private static final int MIN = -MAX;
@@ -41,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 array.add(i, -r.nextInt(RANGE + 1));
             }
         }
-        Log.e("TASK1", "Array " + array.toString() +
-                " - " + array.size() + " items");
-        //////////////////// task1 /////////////////////////
+        //////////////////// run task1 /////////////////////////
         task1(array, array.size());
     }
 
@@ -73,16 +72,18 @@ public class MainActivity extends AppCompatActivity {
 
         long took = System.currentTimeMillis() - time;
         ///////////////// print ////////////////////
-        printResult(set, min, max, missing, frequentArray, took);
+        printResult(array, set, min, max, missing, frequentArray, took);
     }
 
-    private void printResult(Set set, int min, int max, List<Integer> missing, SparseIntArray frequentArray, long took) {
-        final String line = "Set " + set;
+    private void printResult(List<Integer> array, Set set, int min, int max, List<Integer> missing, SparseIntArray frequentArray, long took) {
+        final String line0 = "Array " + array.toString() + " - " + array.size() + " items";
+        final String line  = "Set " + set;
         final String line1 = "Range is " + min + " to " + max;
         final String line2 = "Missing Numbers: " + missing;
         final String line3 = "Duplicate Numbers: " + frequentArray.toString();
         final String line5 = "It took " + took + " ms";
 
+        Log.e("TASK1", line0);
         Log.e("TASK1", line);
         Log.e("TASK1", line1);
         Log.e("TASK1", line2);
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         FileWriter writer = null;
         try {
             writer = new FileWriter(file);
+            writer.append(line0);
+            writer.append("\n");
             writer.append(line);
             writer.append("\n");
             writer.append(line1);
@@ -124,6 +127,32 @@ public class MainActivity extends AppCompatActivity {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void task2() {
+        MyBoolean b = new MyBoolean(false);
+        MyBoolean b1 = new MyBoolean(0);
+        MyBoolean b2 = new MyBoolean(32432);
+
+        MyBoolean b3 = MyBoolean.isSorted(new ArrayList<String>());
+    }
+
+    private static final class MyBoolean {
+        private Boolean b;
+
+        private MyBoolean(boolean c) {
+            b = c;
+        }
+
+        private MyBoolean(int i) {
+            b = !(i > 1 || i < 0) && (i == 1);
+        }
+
+        static MyBoolean isSorted(List<String> list) {
+            final List<String> sorted = new ArrayList<>(list);
+            Collections.sort(sorted);
+            return new MyBoolean(sorted.equals(list));
         }
     }
 }
