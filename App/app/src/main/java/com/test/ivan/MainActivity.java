@@ -11,13 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
         int max = array.get(0);
         final long time = System.currentTimeMillis();
         SparseIntArray frequentArray = new SparseIntArray(size);
-        List<Integer> missing = new ArrayList<>(size);
-        Set set = new TreeSet();
+        SparseIntArray missing = new SparseIntArray(size);
 
         for (int pos = size - 1; pos >= 0; --pos) {
             int current = array.get(pos);
@@ -61,30 +57,27 @@ public class MainActivity extends AppCompatActivity {
             } else if (current < min) {
                 min = current;
             }
-            set.add(current);
             frequentArray.put(current, frequentArray.get(current) + 1);
         }
         for (int i = max; i >= min; --i) {
-            if (!set.contains(i)) {
-                missing.add(i);
+            if (!(frequentArray.get(i) > 0)) {
+                missing.put(i, i);
             }
         }
 
         long took = System.currentTimeMillis() - time;
         ///////////////// print ////////////////////
-        printResult(array, set, min, max, missing, frequentArray, took);
+        printResult(array, min, max, missing, frequentArray, took);
     }
 
-    private void printResult(List<Integer> array, Set set, int min, int max, List<Integer> missing, SparseIntArray frequentArray, long took) {
+    private void printResult(List<Integer> array, int min, int max, SparseIntArray missing, SparseIntArray frequentArray, long took) {
         final String line0 = "Array " + array.toString() + " - " + array.size() + " items";
-        final String line  = "Set " + set;
         final String line1 = "Range is " + min + " to " + max;
         final String line2 = "Missing Numbers: " + missing;
         final String line3 = "Duplicate Numbers: " + frequentArray.toString();
         final String line5 = "It took " + took + " ms";
 
         Log.e("TASK1", line0);
-        Log.e("TASK1", line);
         Log.e("TASK1", line1);
         Log.e("TASK1", line2);
         Log.e("TASK1", line3);
@@ -100,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             writer = new FileWriter(file);
             writer.append(line0);
-            writer.append("\n");
-            writer.append(line);
             writer.append("\n");
             writer.append(line1);
             writer.append("\n");
@@ -127,32 +118,6 @@ public class MainActivity extends AppCompatActivity {
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void task2() {
-        MyBoolean b = new MyBoolean(false);
-        MyBoolean b1 = new MyBoolean(0);
-        MyBoolean b2 = new MyBoolean(32432);
-
-        MyBoolean b3 = MyBoolean.isSorted(new ArrayList<String>());
-    }
-
-    private static final class MyBoolean {
-        private Boolean b;
-
-        private MyBoolean(boolean c) {
-            b = c;
-        }
-
-        private MyBoolean(int i) {
-            b = !(i > 1 || i < 0) && (i == 1);
-        }
-
-        static MyBoolean isSorted(List<String> list) {
-            final List<String> sorted = new ArrayList<>(list);
-            Collections.sort(sorted);
-            return new MyBoolean(sorted.equals(list));
         }
     }
 }
