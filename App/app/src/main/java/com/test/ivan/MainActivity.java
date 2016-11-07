@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -20,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss", Locale.ENGLISH);
 
-    private static final int RANGE = 1000000;
-    private static final int SIZE = 1000000;
+    private static final int RANGE = 10;
+
+    private static final int SIZE = 10;
 
     private static final int MAX = RANGE;
     private static final int MIN = -MAX;
@@ -48,26 +50,41 @@ public class MainActivity extends AppCompatActivity {
         int max = array.get(0);
         final long time = System.currentTimeMillis();
         SparseIntArray frequentArray = new SparseIntArray(size);
-        SparseIntArray missing = new SparseIntArray(size);
+        BitSet set = new BitSet(size * 2);
 
-        for (int pos = size - 1; pos >= 0; --pos) {
+        for (int pos = 0; pos < SIZE; pos++) {
             int current = array.get(pos);
             if (current > max) {
                 max = current;
             } else if (current < min) {
                 min = current;
             }
+
+            if (current >= 0) {
+                set.set(current);
+            } else {
+                set.set(RANGE-current);
+            }
+
             frequentArray.put(current, frequentArray.get(current) + 1);
         }
-        for (int i = max; i >= min; --i) {
-            if (!(frequentArray.get(i) > 0)) {
-                missing.put(i, i);
+        
+        StringBuilder b2 = new StringBuilder();
+        for (int i = 0; i <= set.length()-1; i++) {
+            b2.append(set.get(i) ? "1 " : "0 ");
+        }
+        Log.e("!!!", "Array " + array.toString() + " - " + array.size() + " items");
+        Log.e("!!!", "set " + b2.toString() + " " + set.length() + " " + set.toString());
+
+        for (int current = max; current >= min; current--) {
+            final int times = frequentArray.get(current);
+            if (times >= 2) {
+                final String line4 = current + " appears " + times + " times";
+                Log.e("!!!", line4);
             }
         }
-
         long took = System.currentTimeMillis() - time;
-        ///////////////// print ////////////////////
-        printResult(array, min, max, missing, frequentArray, took);
+        Log.e("TASK1", "It took " + took + " ms");
     }
 
     private void printResult(List<Integer> array, int min, int max, SparseIntArray missing, SparseIntArray frequentArray, long took) {
